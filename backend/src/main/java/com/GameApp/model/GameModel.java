@@ -41,8 +41,6 @@ public class GameModel {
         this.price = price;
     }
 
-
-
     public String getGenre() {
         return genre;
     }
@@ -50,8 +48,6 @@ public class GameModel {
     public void setGenre(String genre) {
         this.genre = genre;
     }
-
-
 
     public int getId() {
         return id;
@@ -84,7 +80,5 @@ public class GameModel {
     public void setTimePlayed(int timePlayed) {
         this.timePlayed = timePlayed;
     }
-
-
 
 }
