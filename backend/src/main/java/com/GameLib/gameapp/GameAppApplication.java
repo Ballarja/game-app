@@ -1,13 +1,13 @@
-package com.GitFit.fitnessapp;
+package com.GameLib.gameapp;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class FitnessAppApplication {
+public class GameAppApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(FitnessAppApplication.class, args);
+		SpringApplication.run(GameAppApplication.class, args);
 	}
 
 }

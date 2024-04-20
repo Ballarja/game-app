@@ -1,4 +1,4 @@
-package com.GitFit.fitnessapp;
+package com.GameLib.gameapp;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
