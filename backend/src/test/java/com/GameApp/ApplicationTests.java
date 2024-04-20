@@ -1,10 +1,10 @@
-package com.GameLib.gameapp;
+package com.GameApp;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class FitnessAppApplicationTests {
+class ApplicationTests {
 
 	@Test
 	void contextLoads() {

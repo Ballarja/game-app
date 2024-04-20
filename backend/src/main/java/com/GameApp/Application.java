@@ -1,13 +1,13 @@
-package com.GameLib.gameapp;
+package com.GameApp;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class GameAppApplication {
+public class Application {
 
 	public static void main(String[] args) {
-		SpringApplication.run(GameAppApplication.class, args);
+		SpringApplication.run(Application.class, args);
 	}
 
 }
