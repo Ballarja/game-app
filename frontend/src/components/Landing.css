@@ -1,0 +1,15 @@
+
+
+.large-logo{
+    width: 800px;
+    height: 800px;
+}
+.landing-button{
+    width: 250px;
+    height: 50px;
+    margin-top:-18rem;
+    margin-left: 1rem;
+}
+.landing-background{
+    background-color:#3A3939;
+}

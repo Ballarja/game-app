@@ -1,7 +1,12 @@
-import "./App.css";
+import React from "react";
+import Landing from "./components/Landing";
 
 function App() {
-  return <h1>Hello World</h1>;
+  return (
+    <div className="App">
+      <Landing /> {}
+    </div>
+  );
 }
 
 export default App;
