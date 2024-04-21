@@ -31,6 +31,7 @@ export default function Registration() {
     try {
       const response = await axios.post("/registration", {
         email: email,
+        password: password,
       });
       const userId = response.data;
 

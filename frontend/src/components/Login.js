@@ -18,12 +18,10 @@ export function Login() {
       });
 
       if (response.status === 200) {
-        const authToken = response.data.token;
         const userId = response.data.userId;
-        localStorage.setItem("token", authToken);
         localStorage.setItem("userId", userId);
 
-        navigate("/items");
+        navigate("/games");
       }
     } catch (err) {
       if (err.response && err.response.status === 401) {
