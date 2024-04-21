@@ -28,10 +28,10 @@ export default function Landing() {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto" style={{ justifyContent: "space-evenly" }}>
-              <Nav.Link href="#">
+              <Nav.Link href="/login">
                 <i className="bi bi-controller"></i> Login
               </Nav.Link>
-              <Nav.Link href="#">
+              <Nav.Link href="/register">
                 <i className="bi bi-pen"></i> Sign Up
               </Nav.Link>
             </Nav>
