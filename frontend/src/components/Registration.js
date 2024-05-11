@@ -31,17 +31,17 @@ export default function Registration() {
     try {
       const response = await axios.post("/registration", {
         email: email,
-        password: password,
+        password: hashedPassword,
       });
       const userId = response.data;
 
-      await axios.post("/login", {
-        email: email,
-        password: hashedPassword,
-        userId: userId,
-      });
+      // await axios.post("/login", {
+      //   email: email,
+      //   password: hashedPassword,
+      //   userId: userId,
+      // });
       alert("Registration Success!");
-      navigate("/login");
+      navigate("/");
     } catch (err) {
       alert(err);
     }
