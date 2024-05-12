@@ -1,4 +1,7 @@
 package com.GameApp.repository;
 
-public class LoginRepository {
+import com.GameApp.model.LoginModel;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface LoginRepository extends JpaRepository<LoginModel, Integer> {
 }
