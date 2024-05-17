@@ -1,32 +1,34 @@
 package com.GameApp.controller;
 
-import com.GameApp.repository.LoginRepository;
+import com.GameApp.model.LoginModel;
+import com.GameApp.model.RegistrationModel;
+import com.GameApp.repository.RegistrationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin("http://localhost:3000")
 public class LoginController {
 
     @Autowired
-    private LoginRepository loginRepository;
+    private RegistrationRepository registrationRepository;
 
     @PostMapping("/login")
-    public ResponseEntity<Map<String, Object>> loginUser(@RequestBody Login login) {
-        String email = login.getEmail();
-        String password = login.getPassword();
-        Login loggedInUser = userRepository.findByEmail(email);
+    public ResponseEntity<String> login(@RequestBody LoginModel loginModel) {
+        Optional<RegistrationModel> userOptional = registrationRepository.findByEmail(loginModel.getEmail());
 
-        if (loggedInUser != null && loggedInUser.getPassword().equals(password)) {
-            Map<String, Object> response = new HashMap<>();
-            response.put("userId", loggedInUser.getUserId());
-            return ResponseEntity.ok().body(response);
+        if (userOptional.isPresent()) {
+            RegistrationModel user = userOptional.get();
+            if (user.getPassword().equals(loginModel.getPassword())) {
+                return ResponseEntity.ok("Login successful");
+            } else {
+                return ResponseEntity.status(401).body("Invalid password");
+            }
+        } else {
+            return ResponseEntity.status(404).body("User not found");
         }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
 }

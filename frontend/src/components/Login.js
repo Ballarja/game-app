@@ -12,7 +12,7 @@ export function Login() {
   async function handleSubmit(event) {
     event.preventDefault();
     try {
-      const response = await axios.post("/submit", {
+      const response = await axios.post("/login", {
         email: email,
         password: password,
       });

@@ -7,10 +7,13 @@ import java.util.UUID;
 @Entity
 @Table(name = "user")
 public class RegistrationModel {
+
     @Id
-    private UUID id = UUID.randomUUID();
+    @GeneratedValue
+    private UUID id;
     private String email;
     private String password;
+
     public UUID getId() {
         return id;
     }

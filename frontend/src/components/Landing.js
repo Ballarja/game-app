@@ -20,7 +20,9 @@ export default function Landing() {
       <Image src={img} alt="Description of the image" className="large-logo" />
 
       {/* Button with minimal margin */}
-      <Button className="landing-button">Games</Button>
+      <Button className="landing-button" href="/gameList">
+        Games
+      </Button>
 
       {/* Navigation Bar */}
       <Navbar bg={theme} expand="sm" fixed="top" className="shadow-sm">
