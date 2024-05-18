@@ -1,12 +1,11 @@
 package com.GameApp.model;
 
 import jakarta.persistence.*;
-
 import java.util.UUID;
 
 @Entity
 @Table(name = "user")
-public class LoginModel {
+public class User {
 
     @Id
     @GeneratedValue
@@ -14,6 +13,7 @@ public class LoginModel {
     private String email;
     private String password;
 
+    // Getters and setters
     public UUID getId() {
         return id;
     }
@@ -37,8 +37,4 @@ public class LoginModel {
     public void setPassword(String password) {
         this.password = password;
     }
-
-
 }
-
-

@@ -1,36 +1,33 @@
 package com.GameApp.controller;
 
-import com.GameApp.model.LoginModel;
 import com.GameApp.dto.LoginResponse;
-import com.GameApp.model.RegistrationModel;
-import com.GameApp.repository.RegistrationRepository;
+import com.GameApp.model.User;
+import com.GameApp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @CrossOrigin("http://localhost:3000")
-public class LoginController {
+public class UserController {
 
     @Autowired
-    private RegistrationRepository registrationRepository;
+    private UserService userService;
 
-    @PostMapping("/submit")
-    public ResponseEntity<?> login(@RequestBody LoginModel loginModel) {
-        Optional<RegistrationModel> userOptional = registrationRepository.findByEmail(loginModel.getEmail());
+    @PostMapping("/register")
+    public ResponseEntity<UUID> registerUser(@RequestBody User user) {
+        User registeredUser = userService.registerUser(user);
+        return ResponseEntity.ok().body(registeredUser.getId());
+    }
 
-        if (userOptional.isPresent()) {
-            RegistrationModel user = userOptional.get();
-            if (user.getPassword().equals(loginModel.getPassword())) {
-                LoginResponse loginResponse = new LoginResponse(user.getId(), "Login successful");
-                return ResponseEntity.ok(loginResponse);
-            } else {
-                return ResponseEntity.status(401).body(new LoginResponse(null, "Invalid password"));
-            }
-        } else {
-            return ResponseEntity.status(404).body(new LoginResponse(null, "User not found"));
+    @PostMapping("/login")
+    public ResponseEntity<?> loginUser(@RequestBody User user) {
+        User loggedInUser = userService.loginUser(user.getEmail(), user.getPassword());
+        if (loggedInUser != null) {
+            return ResponseEntity.ok(new LoginResponse(loggedInUser.getId(), "Login successful"));
         }
+        return ResponseEntity.status(401).body(new LoginResponse(null, "Invalid email or password"));
     }
 }

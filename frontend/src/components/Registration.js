@@ -29,21 +29,25 @@ export default function Registration() {
     e.preventDefault();
     const hashedPassword = bcrypt.hashSync(password, 10);
     try {
-      const response = await axios.post("/registration", {
+      const registrationResponse = await axios.post("/registration", {
         email: email,
         password: hashedPassword,
       });
-      const userId = response.data;
-
-      // await axios.post("/login", {
-      //   email: email,
-      //   password: hashedPassword,
-      //   userId: userId,
-      // });
-      alert("Registration Success!");
+      const loginResponse = await axios.post("/login", {
+        email: email,
+        password: password,
+      });
+      alert("Registration and Login Success!");
       navigate("/");
     } catch (err) {
-      alert(err);
+      console.error(
+        "Error during registration or login:",
+        err.response || err.message || err
+      );
+      alert(
+        "Registration or Login failed: " +
+          (err.response?.data?.message || err.message || "Unknown error")
+      );
     }
   };
 
