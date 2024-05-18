@@ -12,7 +12,7 @@ export function Login() {
   async function handleSubmit(event) {
     event.preventDefault();
     try {
-      const response = await axios.post("/login", {
+      const response = await axios.post("/submit", {
         email: email,
         password: password,
       });
@@ -21,7 +21,7 @@ export function Login() {
         const userId = response.data.userId;
         localStorage.setItem("userId", userId);
 
-        navigate("/games");
+        navigate("/");
       }
     } catch (err) {
       if (err.response && err.response.status === 401) {

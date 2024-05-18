@@ -1,6 +1,7 @@
 package com.GameApp.controller;
 
 import com.GameApp.model.LoginModel;
+import com.GameApp.dto.LoginResponse;
 import com.GameApp.model.RegistrationModel;
 import com.GameApp.repository.RegistrationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,19 +17,20 @@ public class LoginController {
     @Autowired
     private RegistrationRepository registrationRepository;
 
-    @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginModel loginModel) {
+    @PostMapping("/submit")
+    public ResponseEntity<?> login(@RequestBody LoginModel loginModel) {
         Optional<RegistrationModel> userOptional = registrationRepository.findByEmail(loginModel.getEmail());
 
         if (userOptional.isPresent()) {
             RegistrationModel user = userOptional.get();
             if (user.getPassword().equals(loginModel.getPassword())) {
-                return ResponseEntity.ok("Login successful");
+                LoginResponse loginResponse = new LoginResponse(user.getId(), "Login successful");
+                return ResponseEntity.ok(loginResponse);
             } else {
-                return ResponseEntity.status(401).body("Invalid password");
+                return ResponseEntity.status(401).body(new LoginResponse(null, "Invalid password"));
             }
         } else {
-            return ResponseEntity.status(404).body("User not found");
+            return ResponseEntity.status(404).body(new LoginResponse(null, "User not found"));
         }
     }
 }
