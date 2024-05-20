@@ -29,9 +29,9 @@ export default function Registration() {
     e.preventDefault();
     const hashedPassword = bcrypt.hashSync(password, 10);
     try {
-      const registrationResponse = await axios.post("/registration", {
+      const registrationResponse = await axios.post("/register", {
         email: email,
-        password: hashedPassword,
+        password: password,
       });
       const loginResponse = await axios.post("/login", {
         email: email,

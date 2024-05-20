@@ -1,33 +1,49 @@
 package com.GameApp.controller;
 
-import com.GameApp.dto.LoginResponse;
 import com.GameApp.model.Login;
+import com.GameApp.repository.LoginRepository;
 import com.GameApp.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+import java.util.HashMap;
+import java.util.Map;
 
-import java.util.UUID;
-
-@RestController
 @CrossOrigin("http://localhost:3000")
-public class UserController {
+@RestController
+public class LoginController {
 
     @Autowired
-    private LoginService userService;
+    private LoginRepository userRepository;
 
-    @PostMapping("/register")
-    public ResponseEntity<UUID> registerUser(@RequestBody Login user) {
-        Login registeredUser = userService.registerUser(user);
-        return ResponseEntity.ok().body(registeredUser.getId());
-    }
+    @Autowired
+    private LoginService loginService;
 
     @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@RequestBody Login user) {
-        Login loggedInUser = userService.loginUser(user.getEmail(), user.getPassword());
-        if (loggedInUser != null) {
-            return ResponseEntity.ok(new LoginResponse(loggedInUser.getId(), "Login successful"));
+    Login newLogin(@RequestBody Login newLogin) {
+        return userRepository.save(newLogin);
+    }
+
+    @PostMapping("/submit")
+    public ResponseEntity<Map<String, Object>> loginUser(@RequestBody Login login) {
+        String email = login.getEmail();
+        String password = login.getPassword();
+        boolean isValidLogin = loginService.validateLogin(email, password);
+
+        if (isValidLogin) {
+            Login loggedInUser = loginService.findByEmail(email);
+            if (loggedInUser != null) {
+                String authToken = loginService.generateAuthToken(login);
+                Map<String, Object> response = new HashMap<>();
+                response.put("token", authToken);
+                response.put("userId", loggedInUser.getUserId());
+                return ResponseEntity.ok().body(response);
+            }
         }
-        return ResponseEntity.status(401).body(new LoginResponse(null, "Invalid email or password"));
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
 }

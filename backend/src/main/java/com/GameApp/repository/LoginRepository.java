@@ -1,10 +1,8 @@
 package com.GameApp.repository;
 
-import com.GameApp.model.User;
+import com.GameApp.model.Login;
 import org.springframework.data.jpa.repository.JpaRepository;
-import java.util.Optional;
-import java.util.UUID;
 
-public interface UserRepository extends JpaRepository<User, UUID> {
-    Optional<User> findByEmail(String email);
+public interface LoginRepository extends JpaRepository<Login, Integer> {
+    Login findByEmail(String email);
 }
