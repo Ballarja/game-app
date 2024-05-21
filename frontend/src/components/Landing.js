@@ -33,7 +33,7 @@ export default function Landing() {
               <Nav.Link href="/login">
                 <i className="bi bi-controller"></i> Login
               </Nav.Link>
-              <Nav.Link href="/registration">
+              <Nav.Link href="/register">
                 <i className="bi bi-pen"></i> Sign Up
               </Nav.Link>
             </Nav>

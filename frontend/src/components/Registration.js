@@ -1,19 +1,29 @@
 import React, { useState } from "react";
-import Form from "react-bootstrap/Form";
 import { useNavigate } from "react-router-dom";
+import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import axios from "axios";
 import bcrypt from "bcryptjs";
 
 export default function Registration() {
+  const [name, setName] = useState("");
+  const [company, setCompany] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
   function validateForm() {
+    const regexNameVerification = /^[A-Za-z\s]+$/;
     const regexEmailVerification = /^(.+)@(.+)$/;
 
-    if (email === "" || password === "" || confirmPassword === "") {
+    if (
+      name === "" ||
+      email === "" ||
+      password === "" ||
+      confirmPassword === ""
+    ) {
+      return false;
+    } else if (!regexNameVerification.test(name)) {
       return false;
     } else if (!regexEmailVerification.test(email)) {
       return false;
@@ -29,25 +39,22 @@ export default function Registration() {
     e.preventDefault();
     const hashedPassword = bcrypt.hashSync(password, 10);
     try {
-      const registrationResponse = await axios.post("/register", {
+      const response = await axios.post("/registration", {
+        name: name,
+        company: company,
         email: email,
-        password: password,
       });
-      const loginResponse = await axios.post("/login", {
+      const userId = response.data;
+
+      await axios.post("/login", {
         email: email,
-        password: password,
+        password: hashedPassword,
+        userId: userId,
       });
-      alert("Registration and Login Success!");
-      navigate("/");
+      alert("Registration Success!");
+      navigate("/login");
     } catch (err) {
-      console.error(
-        "Error during registration or login:",
-        err.response || err.message || err
-      );
-      alert(
-        "Registration or Login failed: " +
-          (err.response?.data?.message || err.message || "Unknown error")
-      );
+      alert(err);
     }
   };
 
@@ -55,6 +62,24 @@ export default function Registration() {
     <div id="registration-page">
       <h1 className="text-center">Register</h1>
       <Form onSubmit={handleSubmit}>
+        <Form.Group id="registration-form" controlId="formName" className="m-5">
+          <Form.Label>Name: </Form.Label>
+          <Form.Control
+            type="name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="John Doe"
+          ></Form.Control>
+        </Form.Group>
+        <Form.Group controlId="formCompany" className="m-5">
+          <Form.Label>Company: </Form.Label>
+          <Form.Control
+            type="name"
+            value={company}
+            onChange={(e) => setCompany(e.target.value)}
+            placeholder="My Company"
+          ></Form.Control>
+        </Form.Group>
         <Form.Group controlId="formEmail" className="m-5">
           <Form.Label>Email: </Form.Label>
           <Form.Control

@@ -15,14 +15,14 @@ public class RegistrationController {
     private RegistrationRepository registrationRepository;
 
     @PostMapping("/registration")
-    public ResponseEntity<UUID> createRegistration(@RequestBody Registration registrationData) {
-        Registration savedRegistrationData = registrationRepository.save(registrationData);
-        UUID userId = savedRegistrationData.getId();
+    public ResponseEntity<UUID> createRegistration(@RequestBody Registration registration) {
+        Registration savedRegistration = registrationRepository.save(registration);
+        UUID userId = savedRegistration.getId();
         return ResponseEntity.ok().body(userId);
     }
 
     @GetMapping("/registrations")
-    List<Registration> getAllRegistrationData() {
+    List<Registration> getAllRegistration() {
         return registrationRepository.findAll();
     }
 }

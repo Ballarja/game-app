@@ -4,31 +4,33 @@ import axios from "axios";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 
-export function Login() {
+export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const validateForm = () => {
-    return email.length > 0 && password.length > 0;
-  };
-
   async function handleSubmit(event) {
     event.preventDefault();
     try {
-      const response = await axios.post("/login", {
+      const response = await axios.post("/submit", {
         email: email,
         password: password,
       });
 
-      alert("Login Success!");
-      navigate("/");
+      if (response.status === 200) {
+        const authToken = response.data.token;
+        const userId = response.data.userId;
+        localStorage.setItem("token", authToken);
+        localStorage.setItem("userId", userId);
+
+        navigate("/items");
+      }
     } catch (err) {
-      console.error("Error during login:", err.response || err.message || err);
-      alert(
-        "Login failed: " +
-          (err.response?.data?.message || err.message || "Unknown error")
-      );
+      if (err.response && err.response.status === 401) {
+        alert("Login failed. Please check your email and password.");
+      } else {
+        alert("An error occurred. Please try again later.");
+      }
     }
   }
 
@@ -61,7 +63,6 @@ export function Login() {
           className="mx-5"
           variant="primary"
           type="submit"
-          disabled={!validateForm()}
         >
           Submit
         </Button>
