@@ -6,8 +6,7 @@ import axios from "axios";
 import bcrypt from "bcryptjs";
 
 export default function Registration() {
-  const [name, setName] = useState("");
-  const [company, setCompany] = useState("");
+  const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -17,13 +16,13 @@ export default function Registration() {
     const regexEmailVerification = /^(.+)@(.+)$/;
 
     if (
-      name === "" ||
+      userName === "" ||
       email === "" ||
       password === "" ||
       confirmPassword === ""
     ) {
       return false;
-    } else if (!regexNameVerification.test(name)) {
+    } else if (!regexNameVerification.test(userName)) {
       return false;
     } else if (!regexEmailVerification.test(email)) {
       return false;
@@ -40,8 +39,7 @@ export default function Registration() {
     const hashedPassword = bcrypt.hashSync(password, 10);
     try {
       const response = await axios.post("/registration", {
-        name: name,
-        company: company,
+        name: userName,
         email: email,
       });
       const userId = response.data;
@@ -65,19 +63,10 @@ export default function Registration() {
         <Form.Group id="registration-form" controlId="formName" className="m-5">
           <Form.Label>Name: </Form.Label>
           <Form.Control
-            type="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="John Doe"
-          ></Form.Control>
-        </Form.Group>
-        <Form.Group controlId="formCompany" className="m-5">
-          <Form.Label>Company: </Form.Label>
-          <Form.Control
-            type="name"
-            value={company}
-            onChange={(e) => setCompany(e.target.value)}
-            placeholder="My Company"
+            type="userName"
+            value={userName}
+            onChange={(e) => setUserName(e.target.value)}
+            placeholder="UserName"
           ></Form.Control>
         </Form.Group>
         <Form.Group controlId="formEmail" className="m-5">
