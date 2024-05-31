@@ -14,6 +14,7 @@ public class RegistrationController {
     @Autowired
     private RegistrationRepository registrationRepository;
 
+// Stores Data in Created User Table
     @PostMapping("/registration")
     public ResponseEntity<UUID> createRegistration(@RequestBody Registration registration) {
         Registration savedRegistration = registrationRepository.save(registration);
@@ -21,6 +22,7 @@ public class RegistrationController {
         return ResponseEntity.ok().body(userId);
     }
 
+// Retrieves Data in Created User Table
     @GetMapping("/registrations")
     List<Registration> getAllRegistration() {
         return registrationRepository.findAll();
